@@ -95,11 +95,7 @@ WHERE opening_date > '07.05.2022' AND EXTRACT(YEAR FROM opening_date) = 2022
 
 -- 9. Самый дорогой пункт меню в каждом ресторане ДОДЕЛАТЬ!
 
--- Не до конца понял, почему не работает
--- Сгруппировал по ID Хочу вытащить из группы максимальную цену и название из этой же строки
--- Вопрос как поступать с одинаковой ценой в рамках одного ID
-
-
+-- Что бы вытащить название без группировки приджойнили эту же таблицу к самой себе
 SELECT pa.*, item_name
 FROM
     (SELECT r.name_restaraunt, MAX(m.price) AS max_price
@@ -142,9 +138,9 @@ FROM orders o
 JOIN restaurants r ON o.restaurant_id = r.restaurant_id
 GROUP BY o.restaurant_id, r.name_restaraunt
 
--- 11. Вывести средний рейтинг ресторана в котором работает наибольшее количество шефповаров* НЕДОДЕЛАЛ
+-- 11. Вывести средний рейтинг ресторана в котором работает наибольшее количество шефповаров*
 
--- Здесь видно ID ресторана с набольшим количеством Chef
+-- Здесь видно ID ресторана с наибольшим количеством Chef
 SELECT restaurant_id, COUNT(work_position) as kkk
 FROM employees
 WHERE work_position = 'Chef'
@@ -154,7 +150,7 @@ ORDER BY kkk DESC
 -- Тоже самое но еще с названием ресторана
 
 
---CTE, ХИНТЫ
+-- Используем CTE
 SELECT * FROM
 TABLE (DBMS_XPLAN.display)
 
@@ -177,18 +173,6 @@ avg_rating AS (SELECT restaurant_id, AVG(rating) AS avg_sred
 SELECT f.name_restaraunt, avg_sred
 FROM avg_rating ar
 JOIN first_chef f ON ar.restaurant_id = f.restaurant_id
-
--- Снова сталкиваюсь с непонятностью группировки!
-SELECT aaa, bbb, AVG(rev.rating)
-    FROM (SELECT e.restaurant_id AS aaa, r.name_restaraunt bbb, COUNT(e.work_position) as kkk
-            FROM employees e
-            JOIN restaurants r ON e.restaurant_id = r.restaurant_id
-            WHERE e.work_position = 'Chef'
-            GROUP BY e.restaurant_id, r.name_restaraunt
-            ORDER BY kkk DESC)
-    JOIN reviews rev ON aaa = rev.restaurant_id
-    GROUP BY aaa, bbb
-
 
 -- 12. Вывести количество позиций в меню каждого ресторана
 
