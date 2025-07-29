@@ -1,0 +1,14 @@
+SELECT * FROM customers
+SELECT * FROM employees
+SELECT * FROM menus
+SELECT * FROM orders
+SELECT * FROM restaurants
+
+SELECT o.ORDER_ID, o.CUSTOMER_ID, o.RESTAURANT_ID, m.MENU_ID, o.ORDER_DATE, o.TOTAL_AMOUNT,
+r.NAME_RESTARAUNT, r.CITY, r.OPENING_DATE,
+m.ITEM_NAME, m.PRICE,
+c.NAME_CUSTOMER, c.EMAIL, c.PHONE, c.BIRTHDAY
+FROM orders o
+JOIN restaurants r ON r.RESTAURANT_ID = o.RESTAURANT_ID
+JOIN menus m ON m.RESTAURANT_ID = o.RESTAURANT_ID
+JOIN customers c ON c.customer_id = o.customer_id
