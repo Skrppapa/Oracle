@@ -1,3 +1,28 @@
+Важное уточнение про ограничения!
+
+Ограничения
+
+есть 2 способа навесить ограничение на колонку (группу колонок):
+- inline При создании таблицы прописать сразу за типом данных
+- CONSTRAINT с явным указанием имени
+
+CREATE TABLE employees (
+  employee_id NUMBER PRIMARY KEY,
+  name VARCHAR2(50) NOT NULL
+);
+
+Здесь employee_id — автоматически становится PRIMARY KEY, но имя ограничения генерируется Oracle автоматически (например: SYS_C0012345).
+
+CREATE TABLE employees (
+  employee_id NUMBER,
+  name VARCHAR2(50) NOT NULL,
+  CONSTRAINT emp_id_pk PRIMARY KEY (employee_id)
+);
+
+Здесь то же самое логически, но вы сами задаёте имя ограничения: emp_id_pk. Это удобно, если вы хотите в будущем ссылаться на это имя (например, чтобы удалить или отключить ограничение).
+
+
+
 -- Создание таблицы EMPLOYEES
 
 CREATE TABLE EMPLOYEES (
